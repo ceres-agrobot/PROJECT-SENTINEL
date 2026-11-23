@@ -5,7 +5,7 @@
     <!-- Initial package configuration -->
     <name>sentinel_control</name>
     <version>1.0.0</version>
-    <description>Sentinel control package to ensure & enhance all controllers quality requirements ( e.g. time to complete a mission, minimum navigation error allowance and correction, camera precision, etc. )</description>
+    <description>Sentinel control package to ensure &amp; enhance all controllers quality requirements ( e.g. time to complete a mission, minimum navigation error allowance and correction, camera precision, etc. )</description>
     <maintainer email="ivan.oroz34@gmail.com">Nidhood</maintainer>    <!-- Please help me adding your maintainer info ( Vales - Sofis - Elkins ) -->
     <license>BSD-3-Clause</license>
 

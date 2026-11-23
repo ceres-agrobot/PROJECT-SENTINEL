@@ -3,7 +3,7 @@
 <package format="3">
 
     <!-- Initial package configuration -->
-    <name>sentinel</name>
+    <name>sentinel_gui</name>
     <version>1.0.0</version>
     <description>Sentinel gui package to create a user interface able to operate all robot states and mission functionalities locally</description>
     <maintainer email="ivan.oroz34@gmail.com">Nidhood</maintainer>    <!-- Please help me adding your maintainer info ( Vales - Sofis - Elkins ) -->

@@ -1,4 +1,4 @@
-# PROJECT SALLY
+# PROJECT SENTINEL
 
 SENTINEL is an thesis robotics project developed using **ROS 2**. The project integrates robot maneuverability, localization & navigation in real time ( SLAM ), perception complete system to acquires and process images and a full architecture able to connect, maintain, escalates all these systems ( needs to be completed and detailed by the SENTINEL's developer team ).
 

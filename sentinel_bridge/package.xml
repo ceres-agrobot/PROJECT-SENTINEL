@@ -5,7 +5,7 @@
     <!-- Initial package configuration -->
     <name>sentinel_bridge</name>
     <version>1.0.0</version>
-    <description>Sentinel bridge package that allows to communicate with multiple robot's environments for testing and working ( like GZ msgs & MuJoco msgs )</description>
+    <description>Sentinel bridge package that allows to communicate with multiple robot's environments for testing and working ( like GZ msgs &amp; MuJoco msgs )</description>
     <maintainer email="ivan.oroz34@gmail.com">Nidhood</maintainer>    <!-- Please help me adding your maintainer info ( Vales - Sofis - Elkins ) -->
     <license>BSD-3-Clause</license>
 

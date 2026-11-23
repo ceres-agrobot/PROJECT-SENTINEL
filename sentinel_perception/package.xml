@@ -5,7 +5,7 @@
     <!-- Initial package configuration -->
     <name>sentinel_perception</name>
     <version>1.0.0</version>
-    <description>Sentinel Perception package to implement all models & image processing algorithms to obtain characteristics and indicators of the crack</description>
+    <description>Sentinel Perception package to implement all models &amp; image processing algorithms to obtain characteristics and indicators of the crack</description>
     <maintainer email="ivan.oroz34@gmail.com">Nidhood</maintainer>    <!-- Please help me adding your maintainer info ( Vales - Sofis - Elkins ) -->
     <license>BSD-3-Clause</license>
 

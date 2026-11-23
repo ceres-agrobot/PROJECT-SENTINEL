@@ -5,7 +5,7 @@
     <!-- Initial package configuration -->
     <name>sentinel_hardware_interface</name>
     <version>1.0.0</version>
-    <description>Sentinel Hardware Interface package to be able in decoupled manner to connect messages of commands of manipulation and sensors information through ROS2 & GO2 Edu Pro Robot</description>
+    <description>Sentinel Hardware Interface package to be able in decoupled manner to connect messages of commands of manipulation and sensors information through ROS2 &amp; GO2 Edu Pro Robot</description>
     <maintainer email="ivan.oroz34@gmail.com">Nidhood</maintainer>    <!-- Please help me adding your maintainer info ( Vales - Sofis - Elkins ) -->
     <license>BSD-3-Clause</license>
 
