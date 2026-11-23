@@ -9,7 +9,6 @@ project(sentinel_gz
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)   # Important to find all libraries and global variables outside the workspace.
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(
@@ -21,5 +20,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(ament_cmake REQUIRED)
+
+install(DIRECTORY config launch models worlds scripts
+    DESTINATION share/${PROJECT_NAME}
+)
 
 ament_package()

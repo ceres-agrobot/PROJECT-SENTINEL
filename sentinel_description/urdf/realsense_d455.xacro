@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="d455_camera">
+    <link name="d455_camera_link">
+      <visual>
+        <geometry>
+          <box size="0.09 0.025 0.025"/>
+        </geometry>
+        <material name="black"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.09 0.025 0.025"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.1"/>
+        <inertia ixx="0.000011" ixy="0" ixz="0" iyy="0.000073" iyz="0" izz="0.000073"/>
+      </inertial>
+    </link>
+    <joint name="d455_camera_joint" type="fixed">
+      <parent link="trunk"/>
+      <child link="d455_camera_link"/>
+      <origin xyz="${' '.join(str(v) for v in cfg['sensors']['d455']['xyz'])}" rpy="${' '.join(str(v) for v in cfg['sensors']['d455']['rpy'])}"/>
+    </joint>
+    <gazebo reference="d455_camera_link">
+      <sensor name="d455_rgbd_camera" type="rgbd_camera">
+        <always_on>true</always_on>
+        <update_rate>${cfg['sensors']['d455']['update_rate_hz']}</update_rate>
+        <topic>d455</topic>
+        <gz_frame_id>d455_camera_link</gz_frame_id>
+        <camera>
+          <horizontal_fov>${cfg['sensors']['d455']['fov_rad']}</horizontal_fov>
+          <image>
+            <width>${cfg['sensors']['d455']['width']}</width>
+            <height>${cfg['sensors']['d455']['height']}</height>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>10</far>
+          </clip>
+        </camera>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+</robot>

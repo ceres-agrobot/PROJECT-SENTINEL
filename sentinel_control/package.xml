@@ -12,6 +12,20 @@
     <!-- Build tool dependencies for ament package -->
     <buildtool_depend>ament_cmake</buildtool_depend>
 
+    <!-- Dependencies -->
+    <depend>rclcpp</depend>
+    <depend>geometry_msgs</depend>
+    <depend>sensor_msgs</depend>
+    <depend>std_msgs</depend>
+    <depend>sentinel_interfaces</depend>
+
+    <!-- Exec dependencies -->
+    <exec_depend>controller_manager</exec_depend>
+    <exec_depend>joint_state_broadcaster</exec_depend>
+    <exec_depend>position_controllers</exec_depend>
+    <exec_depend>gz_ros2_control</exec_depend>
+    <exec_depend>launch_ros</exec_depend>
+
     <!-- Exported targets -->
     <export>
         <build_type>ament_cmake</build_type>

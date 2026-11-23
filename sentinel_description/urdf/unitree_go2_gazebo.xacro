@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="sentinel_gazebo" params="">
+    <xacro:unless value="$(arg enable_control)">
+      <xacro:if value="${cfg['simulation']['static_model']}">
+        <gazebo><static>true</static></gazebo>
+      </xacro:if>
+    </xacro:unless>
+    <xacro:if value="$(arg enable_control)">
+      <gazebo>
+        <static>false</static>
+        <plugin filename="libgz_ros2_control-system.so"
+                name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+          <parameters>$(find sentinel_control)/config/controllers.yaml</parameters>
+          <robot_param_node>robot_state_publisher</robot_param_node>
+          <position_proportional_gain>0.04</position_proportional_gain>
+          <ros>
+            <namespace>/sentinel/sim</namespace>
+            <remapping>/joint_states:=/sentinel/sim/joint_states</remapping>
+          </ros>
+        </plugin>
+      </gazebo>
+    </xacro:if>
+    <gazebo>
+      <plugin filename="gz-sim-odometry-publisher-system"
+              name="gz::sim::systems::OdometryPublisher">
+        <odom_frame>odom</odom_frame>
+        <robot_base_frame>base_link</robot_base_frame>
+        <odom_topic>/odom/ground_truth</odom_topic>
+        <dimensions>3</dimensions>
+        <odom_publish_frequency>50</odom_publish_frequency>
+      </plugin>
+    </gazebo>
+    <xacro:if value="$(arg enable_imu)">
+      <gazebo reference="imu_link">
+        <sensor name="imu_sensor" type="imu">
+          <always_on>true</always_on>
+          <update_rate>${cfg['sensors']['imu']['update_rate_hz']}</update_rate>
+          <visualize>false</visualize>
+          <topic>imu/data</topic>
+          <gz_frame_id>imu_link</gz_frame_id>
+          <imu>
+            <angular_velocity>
+              <x>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>2e-4</stddev>
+                </noise>
+              </x>
+              <y>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>2e-4</stddev>
+                </noise>
+              </y>
+              <z>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>2e-4</stddev>
+                </noise>
+              </z>
+            </angular_velocity>
+            <linear_acceleration>
+              <x>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>1.7e-2</stddev>
+                </noise>
+              </x>
+              <y>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>1.7e-2</stddev>
+                </noise>
+              </y>
+              <z>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>1.7e-2</stddev>
+                </noise>
+              </z>
+            </linear_acceleration>
+          </imu>
+        </sensor>
+      </gazebo>
+    </xacro:if>
+    <xacro:if value="$(arg enable_gps)">
+      <gazebo reference="gps_link">
+        <sensor name="navsat_sensor" type="navsat">
+          <always_on>true</always_on>
+          <update_rate>${cfg['sensors']['gps']['update_rate_hz']}</update_rate>
+          <topic>gps/fix</topic>
+          <gz_frame_id>gps_link</gz_frame_id>
+          <navsat>
+            <position_sensing>
+              <horizontal>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>0.5</stddev>
+                </noise>
+              </horizontal>
+              <vertical>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>0.8</stddev>
+                </noise>
+              </vertical>
+            </position_sensing>
+            <velocity_sensing>
+              <horizontal>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>0.1</stddev>
+                </noise>
+              </horizontal>
+              <vertical>
+                <noise type="gaussian">
+                  <mean>0.0</mean>
+                  <stddev>0.1</stddev>
+                </noise>
+              </vertical>
+            </velocity_sensing>
+          </navsat>
+        </sensor>
+      </gazebo>
+    </xacro:if>
+    <xacro:if value="$(arg enable_camera)">
+      <gazebo reference="camera_link">
+        <sensor name="rgb_camera" type="camera">
+          <pose>0 0.0 0 0 0 0</pose>
+          <camera>
+            <horizontal_fov>${cfg['sensors']['rgb']['fov_rad']}</horizontal_fov>
+            <image>
+              <width>${cfg['sensors']['rgb']['width']}</width>
+              <height>${cfg['sensors']['rgb']['height']}</height>
+            </image>
+            <clip>
+              <near>0.05</near>
+              <far>200</far>
+            </clip>
+          </camera>
+          <gz_frame_id>camera_link</gz_frame_id>
+          <always_on>1</always_on>
+          <update_rate>${cfg['sensors']['rgb']['update_rate_hz']}</update_rate>
+          <visualize>1</visualize>
+          <topic>rgb_image</topic>
+        </sensor>
+      </gazebo>
+    </xacro:if>
+    <gazebo reference="trunk">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <kp>10000.0</kp>
+      <kd>1.0</kd>
+    </gazebo>
+    <gazebo reference="lf_hip_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+    </gazebo>
+    <gazebo reference="lf_upper_leg_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <self_collide>1</self_collide>
+      <kp>10000.0</kp>
+      <kd>1.0</kd>
+    </gazebo>
+    <gazebo reference="lf_lower_leg_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <self_collide>1</self_collide>
+    </gazebo>
+    <gazebo reference="lf_foot_link">
+      <mu1>0.9</mu1>
+      <mu2>0.9</mu2>
+      <kp>10000.0</kp>
+      <kd>1.0</kd>
+      <sensor name="lf_foot_contact_sensor" type="contact">
+        <always_on>true</always_on>
+        <update_rate>100.0</update_rate>
+        <contact>
+          <collision>lf_foot_link_collision</collision>
+          <topic>/lf_foot_contacts</topic>
+        </contact>
+      </sensor>
+    </gazebo>
+    <gazebo reference="lf_foot_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+    <gazebo reference="rf_hip_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+    </gazebo>
+    <gazebo reference="rf_upper_leg_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <self_collide>1</self_collide>
+      <kp>10000.0</kp>
+      <kd>1.0</kd>
+    </gazebo>
+    <gazebo reference="rf_lower_leg_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <self_collide>1</self_collide>
+    </gazebo>
+    <gazebo reference="rf_foot_link">
+      <mu1>0.9</mu1>
+      <mu2>0.9</mu2>
+      <kp>10000.0</kp>
+      <kd>1.0</kd>
+      <sensor name="rf_foot_contact_sensor" type="contact">
+        <always_on>true</always_on>
+        <update_rate>100.0</update_rate>
+        <contact>
+          <collision>rf_foot_link_collision</collision>
+          <topic>/rf_foot_contacts</topic>
+        </contact>
+      </sensor>
+    </gazebo>
+    <gazebo reference="rf_foot_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+    <gazebo reference="lh_hip_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+    </gazebo>
+    <gazebo reference="lh_upper_leg_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <self_collide>1</self_collide>
+      <kp>10000.0</kp>
+      <kd>1.0</kd>
+    </gazebo>
+    <gazebo reference="lh_lower_leg_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <self_collide>1</self_collide>
+    </gazebo>
+    <gazebo reference="lh_foot_link">
+      <mu1>0.9</mu1>
+      <mu2>0.9</mu2>
+      <kp>10000.0</kp>
+      <kd>1.0</kd>
+      <sensor name="lh_foot_contact_sensor" type="contact">
+        <always_on>true</always_on>
+        <update_rate>100.0</update_rate>
+        <contact>
+          <collision>lh_foot_link_collision</collision>
+          <topic>/lh_foot_contacts</topic>
+        </contact>
+      </sensor>
+    </gazebo>
+    <gazebo reference="lh_foot_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+    <gazebo reference="rh_hip_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+    </gazebo>
+    <gazebo reference="rh_upper_leg_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <self_collide>1</self_collide>
+      <kp>10000.0</kp>
+      <kd>1.0</kd>
+    </gazebo>
+    <gazebo reference="rh_lower_leg_link">
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <self_collide>1</self_collide>
+    </gazebo>
+    <gazebo reference="rh_foot_link">
+      <mu1>0.9</mu1>
+      <mu2>0.9</mu2>
+      <kp>10000.0</kp>
+      <kd>1.0</kd>
+      <sensor name="rh_foot_contact_sensor" type="contact">
+        <always_on>true</always_on>
+        <update_rate>100.0</update_rate>
+        <contact>
+          <collision>rh_foot_link_collision</collision>
+          <topic>/rh_foot_contacts</topic>
+        </contact>
+      </sensor>
+    </gazebo>
+    <gazebo reference="rh_foot_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+  </xacro:macro>
+</robot>

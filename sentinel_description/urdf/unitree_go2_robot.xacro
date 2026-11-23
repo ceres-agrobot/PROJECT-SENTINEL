@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sentinel_go2">
+  <xacro:arg name="physical_config_file" default="$(find sentinel_description)/config/sentinel_params.yaml"/>
+  <xacro:arg name="enable_imu" default="true"/>
+  <xacro:arg name="enable_control" default="false"/>
+  <xacro:arg name="enable_camera" default="true"/>
+  <xacro:arg name="enable_d455" default="true"/>
+  <xacro:arg name="enable_lidar_l1" default="true"/>
+  <xacro:arg name="enable_velodyne" default="false"/>
+  <xacro:arg name="enable_gps" default="false"/>
+  <xacro:property name="cfg" value="${xacro.load_yaml('$(arg physical_config_file)')['sentinel']}"/>
+  <xacro:include filename="$(find sentinel_description)/urdf/const.xacro"/>
+  <xacro:include filename="$(find sentinel_description)/urdf/materials.xacro"/>
+  <xacro:include filename="$(find sentinel_description)/urdf/leg.xacro"/>
+  <xacro:include filename="$(find sentinel_description)/urdf/unitree_go2_gazebo.xacro"/>
+  <xacro:include filename="$(find sentinel_description)/urdf/velodyne.xacro"/>
+  <xacro:include filename="$(find sentinel_description)/urdf/lidar_4D_lidar.xacro"/>
+  <xacro:include filename="$(find sentinel_description)/urdf/realsense_d455.xacro"/>
+  <xacro:sentinel_gazebo/>
+  <xacro:if value="$(arg enable_control)">
+    <ros2_control name="SentinelGo2System" type="system">
+      <hardware><plugin>gz_ros2_control/GazeboSimSystem</plugin></hardware>
+      <joint name="rf_hip_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="rf_upper_leg_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">0.725</param></state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="rf_lower_leg_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">-1.45</param></state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="lf_hip_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="lf_upper_leg_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">0.725</param></state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="lf_lower_leg_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">-1.45</param></state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="rh_hip_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="rh_upper_leg_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">0.725</param></state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="rh_lower_leg_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">-1.45</param></state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="lh_hip_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">0.0</param></state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="lh_upper_leg_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">0.725</param></state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+      <joint name="lh_lower_leg_joint">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">-1.45</param></state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+    </ros2_control>
+  </xacro:if>
+  <link name="base_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="floating_base" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="trunk"/>
+  </joint>
+  <link name="trunk">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find sentinel_description)/meshes/trunk.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${trunk_length} ${trunk_width} ${trunk_height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="${trunk_com_x} ${trunk_com_y} ${trunk_com_z}"/>
+      <mass value="${trunk_mass}"/>
+      <inertia ixx="${trunk_ixx}" ixy="${trunk_ixy}" ixz="${trunk_ixz}" iyy="${trunk_iyy}" iyz="${trunk_iyz}" izz="${trunk_izz}"/>
+    </inertial>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="trunk"/>
+    <child link="imu_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+  <joint name="gps_joint" type="fixed">
+    <parent link="trunk"/>
+    <child link="gps_link"/>
+    <origin rpy="0 0 0" xyz="${' '.join(str(v) for v in cfg['sensors']['gps']['xyz'])}"/>
+  </joint>
+  <link name="gps_link">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.02"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="imu_link">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size=".001 .001 .001"/>
+      </geometry>
+    </collision>
+  </link>
+  <xacro:if value="$(arg enable_camera)">
+    <link name="camera_link">
+      <inertial>
+        <mass value="0.001"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+      </inertial>
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <sphere radius="0.001"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.5 0 0 1"/>
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <geometry>
+          <sphere radius="0.001"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="camera_joint" type="fixed">
+      <parent link="trunk"/>
+      <child link="camera_link"/>
+      <origin rpy="0 0 0" xyz="${' '.join(str(v) for v in cfg['sensors']['rgb']['xyz'])}"/>
+    </joint>
+  </xacro:if>
+  <xacro:leg name="rf" mirror="-1" mirror_dae="False" front_hind="1" front_hind_dae="True"/>
+  <xacro:leg name="lf" mirror="1" mirror_dae="True" front_hind="1" front_hind_dae="True"/>
+  <xacro:leg name="rh" mirror="-1" mirror_dae="False" front_hind="-1" front_hind_dae="False"/>
+  <xacro:leg name="lh" mirror="1" mirror_dae="True" front_hind="-1" front_hind_dae="False"/>
+  <xacro:if value="$(arg enable_lidar_l1)">
+    <xacro:lidar_l1/>
+  </xacro:if>
+  <xacro:if value="$(arg enable_d455)">
+    <xacro:d455_camera/>
+  </xacro:if>
+  <xacro:if value="$(arg enable_velodyne)">
+    <xacro:velodyne_lidar/>
+  </xacro:if>
+</robot>

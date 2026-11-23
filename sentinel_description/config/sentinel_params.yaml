@@ -1,0 +1,166 @@
+sentinel:
+  metadata:
+    robot: Unitree Go2 EDU / EDU Pro
+    model_source: khaledgabr77/unitree_go2_ros2
+    units: SI (m, kg, rad)
+
+  geometry:
+    PI: 3.141592653589793
+    stick_mass: 1.0e-05
+    trunk_width: 0.0935
+    trunk_length: 0.3762
+    trunk_height: 0.114
+    hip_radius: 0.046
+    hip_length: 0.04
+    thigh_shoulder_radius: 0.041
+    thigh_shoulder_length: 0.032
+    thigh_width: 0.0245
+    thigh_height: 0.034
+    calf_width: 0.016
+    calf_height: 0.016
+    foot_radius: 0.02
+    stick_radius: 0.01
+    stick_length: 0.2
+
+  kinematics:
+    thigh_offset: 0.0955
+    thigh_length: 0.213
+    calf_length: 0.213
+    leg_offset_x: 0.1934
+    leg_offset_y: 0.0465
+    trunk_offset_z: 0.01675
+    hip_offset: 0.0955
+    hip_offset_x: 0.1934
+    hip_offset_y: 0.0465
+    hip_offset_z: 0.0
+    thigh_offset_x: 0.0
+    thigh_offset_y: 0.0955
+    thigh_offset_z: 0.0
+    calf_offset_x: 0.0
+    calf_offset_y: 0.0
+    calf_offset_z: -0.213
+
+  joints:
+    damping: 0.01
+    friction: 0.2
+    hip_position_max: 1.0472
+    hip_position_min: -1.0472
+    hip_velocity_max: 30.1
+    hip_torque_max: 23.7
+    thigh_position_max: 3.4907
+    thigh_position_min: -1.5708
+    thigh_velocity_max: 30.1
+    thigh_torque_max: 23.7
+    calf_position_max: -0.83776
+    calf_position_min: -2.7227
+    calf_velocity_max: 20.06
+    calf_torque_max: 35.55
+
+  inertia:
+    trunk_mass: 6.921
+    trunk_com_x: 0.021112
+    trunk_com_y: 0.0
+    trunk_com_z: -0.005366
+    trunk_ixx: 0.02448
+    trunk_ixy: 0.00012166
+    trunk_ixz: 0.0014849
+    trunk_iyy: 0.098077
+    trunk_iyz: -3.12e-05
+    trunk_izz: 0.107
+    hip_mass: 0.678
+    hip_com_x: -0.0054
+    hip_com_y: 0.00194
+    hip_com_z: -0.000105
+    hip_ixx: 0.00048
+    hip_ixy: -3.01e-06
+    hip_ixz: 1.11e-06
+    hip_iyy: 0.000884
+    hip_iyz: -1.42e-06
+    hip_izz: 0.000596
+    thigh_mass: 1.152
+    thigh_com_x: -0.00374
+    thigh_com_y: -0.0223
+    thigh_com_z: -0.0327
+    thigh_ixx: 0.00584
+    thigh_ixy: 8.72e-05
+    thigh_ixz: -0.000289
+    thigh_iyy: 0.0058
+    thigh_iyz: 0.000808
+    thigh_izz: 0.00103
+    calf_mass: 0.154
+    calf_com_x: 0.00548
+    calf_com_y: -0.000975
+    calf_com_z: -0.115
+    calf_ixx: 0.00108
+    calf_ixy: 3.4e-07
+    calf_ixz: 1.72e-05
+    calf_iyy: 0.0011
+    calf_iyz: 8.28e-06
+    calf_izz: 3.29e-05
+    foot_mass: 0.06
+
+  sensors:
+    imu:
+      update_rate_hz: 100.0
+
+    rgb:
+      xyz:
+        - 0.326
+        - 0.0
+        - 0.043
+
+      rpy:
+        - 0.0
+        - 0.0
+        - 0.0
+
+      width: 640
+
+      height: 480
+
+      fov_rad: 1.367
+
+      update_rate_hz: 10.0
+
+    d455:
+      xyz:
+        - 0.28
+        - 0.0
+        - 0.062
+
+      rpy:
+        - 0.0
+        - 0.0
+        - 0.0
+
+      width: 640
+
+      height: 480
+
+      fov_rad: 1.489
+
+      update_rate_hz: 15.0
+
+    lidar_l1:
+      xyz:
+        - 0.25
+        - -0.038
+        - -0.03
+
+      rpy:
+        - 2.879
+        - 0.0
+        - 1.5705
+
+      update_rate_hz: 10.0
+
+    gps:
+      xyz:
+        - 0.0
+        - 0.0
+        - 0.065
+
+      update_rate_hz: 10.0
+
+  simulation:
+    static_model: true

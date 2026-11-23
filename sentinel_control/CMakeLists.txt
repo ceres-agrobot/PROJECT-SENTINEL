@@ -21,5 +21,37 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(sentinel_interfaces REQUIRED)
 
+add_library(sentinel_gait_model STATIC src/gait_model.cpp)
+target_include_directories(sentinel_gait_model PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+add_executable(sentinel_locomotion_node src/sentinel_locomotion_node.cpp)
+target_link_libraries(sentinel_locomotion_node sentinel_gait_model)
+ament_target_dependencies(sentinel_locomotion_node rclcpp geometry_msgs sensor_msgs std_msgs sentinel_interfaces)
+
+install(TARGETS sentinel_locomotion_node 
+    DESTINATION lib/${PROJECT_NAME}
+)
+
+install(TARGETS sentinel_gait_model 
+    ARCHIVE DESTINATION lib
+)
+
+install(DIRECTORY include/ 
+    DESTINATION include
+)
+install(DIRECTORY config launch 
+    DESTINATION share/${PROJECT_NAME}
+)
+
+ament_export_include_directories(include)
+ament_export_libraries(sentinel_gait_model)
 ament_package()

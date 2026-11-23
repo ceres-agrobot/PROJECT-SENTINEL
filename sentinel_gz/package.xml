@@ -2,18 +2,25 @@
 <?xml-model href="http://downloads.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
 
-    <!-- Initial package configuration -->
-    <name>sentinel_gz</name>
-    <version>1.0.0</version>
-    <description>Sentinel gz package to do all Gazebo Harmonic configurations</description>
-    <maintainer email="ivan.oroz34@gmail.com">Nidhood</maintainer>    <!-- Please help me adding your maintainer info ( Vales - Sofis - Elkins ) -->
-    <license>BSD-3-Clause</license>
+  <!-- Initial package configuration -->
+  <name>sentinel_gz</name>
+  <version>1.0.0</version>
+  <description>Sentinel gz package to do all Gazebo Harmonic configurations</description>
+  <maintainer email="ivan.oroz34@gmail.com">Nidhood</maintainer>  <!-- Please help me adding your maintainer info ( Vales - Sofis - Elkins ) -->
+  <license>BSD-3-Clause</license>
 
-    <!-- Build tool dependencies for ament package -->
-    <buildtool_depend>ament_cmake</buildtool_depend>
+  <!-- Build tool dependencies for ament package -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-    <!-- Exported targets -->
-    <export>
-        <build_type>ament_cmake</build_type>
-    </export>
+  <!-- Exec dependencies -->
+  <exec_depend>sentinel_description</exec_depend>
+  <exec_depend>sentinel_bridge</exec_depend>
+  <exec_depend>sentinel_control</exec_depend>
+  <exec_depend>ros_gz_sim</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+
+  <!-- Exported targets -->
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>

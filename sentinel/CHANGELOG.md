@@ -30,4 +30,8 @@ Each contributor is responsible for documenting relevant changes to ensure trace
 - `sentinel_perception`package with initial folders and files initial configurations.
 - `sentinel_safety`package with initial folders and files initial configurations.
 - `sentinel_slam`package with initial folders and files initial configurations.
-- `requirements-hardware.txt` to centralize Python hardware dependencies.
+
+### Changed
+
+- Updated `sentinel_description`, `sentinel_bring_up`, `sentinel_gz` SENTINEL rviz and Gazebo launch.
+- Updated `sentinel_control`, `sentinel_interfaces`GO2 Edu Pro locomotion dynamics & control.
