@@ -32,7 +32,7 @@ sudo apt install ros-jazzy-controller-manager
 sudo apt install ros-jazzy-teleop-twist-keyboard
 ```
 
-### 2. Clone and Install CHAMP Controller and Go2 Simulation Packages
+### 2. Clone and Install SENTINEL Controller and Go2 Simulation Packages
 
 ```bash
 cd ~/sentinel_ws/src
@@ -206,7 +206,3 @@ Their continued commitment to open research, collaboration, and technological in
 ---
 
 ![IEEE RAS Javeriana Footer](sentinel/public/img/footer.png)
-
-```
-
-```
