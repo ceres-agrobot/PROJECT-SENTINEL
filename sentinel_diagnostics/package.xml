@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<?xml-model href="http://downloads.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+
+    <!-- Initial package configuration -->
+    <name>sentinel_diagnostics</name>
+    <version>1.0.0</version>
+    <description>Sentinel diagnostics package to actively notify all important indicators along the mission development ( battery charge, communication quality, states of the robot, states of the mission, etc. )</description>
+    <maintainer email="ivan.oroz34@gmail.com">Nidhood</maintainer>    <!-- Please help me adding your maintainer info ( Vales - Sofis - Elkins ) -->
+    <license>BSD-3-Clause</license>
+
+    <!-- Build tool dependencies for ament package -->
+    <buildtool_depend>ament_cmake</buildtool_depend>
+
+    <!-- Exported targets -->
+    <export>
+        <build_type>ament_cmake</build_type>
+    </export>
+</package>
